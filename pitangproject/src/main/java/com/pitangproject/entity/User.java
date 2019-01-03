@@ -2,11 +2,13 @@ package com.pitangproject.entity;
 
 import java.util.List;
 
-import javax.persistence.ElementCollection;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 /**
  * @author Thiago Gitirana
@@ -16,15 +18,29 @@ import javax.persistence.Id;
 public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name="user_id")
 	private long id;
-	
+
 	private String firstName;
 	private String lastName;
 	private String email;
 	private String password;
-	
-	@ElementCollection
+
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 	private List<Phone> phones;
+
+	public User() {
+		super();
+	}
+
+	public User(String firstName, String lastName, String email, String password, List<Phone> phones) {
+		super();
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.email = email;
+		this.password = password;
+		this.phones = phones;
+	}
 
 	public String getFirstName() {
 		return firstName;
@@ -66,4 +82,9 @@ public class User {
 		this.phones = phones;
 	}
 	
+	public void addPhone(Phone phone) {
+		phone.setUser(this);
+		phones.add(phone);
+	}
+
 }

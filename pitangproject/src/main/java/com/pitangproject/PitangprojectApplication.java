@@ -3,6 +3,8 @@ package com.pitangproject;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -10,36 +12,79 @@ import org.springframework.context.annotation.Bean;
 
 import com.pitangproject.entity.Phone;
 import com.pitangproject.entity.User;
+import com.pitangproject.repository.PhoneRepository;
 import com.pitangproject.repository.UserRepository;
 
+/**
+ * @author Thiago Gitirana
+ *
+ */
 @SpringBootApplication
 public class PitangprojectApplication {
+
+	private static final Logger log = LoggerFactory.getLogger(PitangprojectApplication.class);
 
 	public static void main(String[] args) {
 		SpringApplication.run(PitangprojectApplication.class, args);
 	}
-	
+
+	/**
+	 * Metódo resposável por inserir usuários ao iniciar a aplicação
+	 * 
+	 * @param repository
+	 * @return CommandLineRunner
+	 */
 	@Bean
-	public CommandLineRunner demo(UserRepository repository) {
-		return (args) ->{
-			User user = new User();
-			user.setFirstName("Thiago");
-			user.setLastName("Gitirana");
-			user.setEmail("thiagogitirana@gmail.com");
-			user.setPassword("123456");
+	public CommandLineRunner demo(UserRepository repository, PhoneRepository repo) {
+		return (args) -> {
+
+			User user1 = new User();
+			user1.setFirstName("Thiago");
+			user1.setLastName("Gitirana");
+			user1.setEmail("thiagogitirana@gmail.com");
+			user1.setPassword("123456");
+			user1.setPhones(new ArrayList<>());						 
+			user1.addPhone(new Phone(996513747, 81, "+55"));
+			user1.addPhone(new Phone(34467871,81, "+55"));			
+			repository.save(user1);
 			
-			Phone celPhone = new Phone();
-			celPhone.setNumber(996513747);
-			celPhone.setCountryCode("+55");
-			celPhone.setAreaCode(81);
+			User user2 = new User();
+			user2.setFirstName("Maria");
+			user2.setLastName("Silva");
+			user2.setEmail("maria@gmail.com");
+			user2.setPassword("123456");
+			user2.setPhones(new ArrayList<>());						 
+			user2.addPhone(new Phone(88556677, 11, "+55"));
+			user2.addPhone(new Phone(44221133, 11, "+55"));
+			user2.addPhone(new Phone(11111111, 11, "+55"));
+			user2.addPhone(new Phone(32323232, 11, "+55"));	
+			repository.save(user2);
 			
-			List<Phone> phones = new ArrayList<>();
-			phones.add(celPhone);
+			User user3 = new User();
+			user3.setFirstName("João");
+			user3.setLastName("Cruz");
+			user3.setEmail("joao@gmail.com");
+			user3.setPassword("123456");
+			user3.setPhones(new ArrayList<>());						 
+			user3.addPhone(new Phone(75315966, 21, "+55"));
+			user3.addPhone(new Phone(33221100, 21, "+55"));
+			user3.addPhone(new Phone(44554455, 21, "+55"));
+			repository.save(user3);
 			
-			user.setPhones(phones);
-			
-			repository.save(user);
+			log.info("Usuários cadastrados");
+			for (User users : repository.findAll()) {
+				StringBuilder builder = new StringBuilder();
+				builder.append("Usuários: ").append(users.getFirstName()).append(" ").append(users.getLastName());
+				log.info(builder.toString());
+				log.info("Telefones: ");
+				List<Phone> phones = repo.findByUser(users);
+				for (Phone phone : phones) {
+					builder = new StringBuilder();
+					builder.append("Telefone: ").append(phone.getCountryCode()).append(" ").append(phone.getAreaCode())
+							.append(" ").append(phone.getNumber());
+					log.info(builder.toString());
+				}
+			}
 		};
 	}
 }
-
