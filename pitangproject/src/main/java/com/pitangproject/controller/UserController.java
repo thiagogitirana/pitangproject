@@ -5,11 +5,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.pitangproject.controller.model.OutputError;
 import com.pitangproject.controller.model.OutputUser;
@@ -17,14 +16,13 @@ import com.pitangproject.entity.User;
 import com.pitangproject.exception.BusinessException;
 import com.pitangproject.repository.UserRepository;
 
-@Controller
-@RequestMapping(path="/user")
+@RestController
 public class UserController {
 	
 	@Autowired
 	private UserRepository userRepository;
 
-	@GetMapping(path="/findUserByLastName")	
+	@RequestMapping(path="/findUserByLastName")	
 	public ResponseEntity<OutputUser> findUserByLastName(@RequestParam("name") String name) {
 		try {
 			List<User> users = userRepository.findByLastName(name);
@@ -40,8 +38,8 @@ public class UserController {
 		}
 	}
 	
-	@GetMapping(path="/addUser")	
-	public ResponseEntity<Object> addUser(@RequestBody User user) {
+	@RequestMapping(path="/signup")	
+	public ResponseEntity<Object> signup(@RequestBody User user) {
 		try {
 			validarCampos(user);
 			userRepository.save(user);
