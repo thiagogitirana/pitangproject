@@ -39,7 +39,7 @@ public class User implements Serializable{
 	private String lastName;
 	
 	@JsonProperty("email")
-	@Email
+	@Email(message="Invalid E-Mail")
 	private String email;
 	
 	@JsonProperty("password")

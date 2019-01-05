@@ -11,9 +11,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.pitangproject.controller.model.OutputError;
 import com.pitangproject.controller.model.OutputUser;
 import com.pitangproject.entity.User;
-import com.pitangproject.repository.PhoneRepository;
+import com.pitangproject.exception.BusinessException;
 import com.pitangproject.repository.UserRepository;
 
 @Controller
@@ -22,9 +23,6 @@ public class UserController {
 	
 	@Autowired
 	private UserRepository userRepository;
-	
-	@Autowired
-	private PhoneRepository phoneRepository;
 
 	@GetMapping(path="/findUserByLastName")	
 	public ResponseEntity<OutputUser> findUserByLastName(@RequestParam("name") String name) {
@@ -36,25 +34,41 @@ public class UserController {
 			return new ResponseEntity<OutputUser>(outputUser, HttpStatus.OK);
 		} catch (Exception e) {
 			OutputUser outputUser = new OutputUser();
-			outputUser.setMessage(e.getLocalizedMessage());
-			outputUser.setResult(e);
+			outputUser.setMessage(e.getMessage());
+			outputUser.setResult(null);
 			return new ResponseEntity<OutputUser>(outputUser, HttpStatus.BAD_REQUEST);
 		}
 	}
 	
 	@GetMapping(path="/addUser")	
-	public ResponseEntity<OutputUser> addUser(@RequestBody User user) {
+	public ResponseEntity<Object> addUser(@RequestBody User user) {
 		try {
+			validarCampos(user);
 			userRepository.save(user);
 			OutputUser outputUser = new OutputUser();
 			outputUser.setMessage("OK");
 			outputUser.setResult("Sucesso");
-			return new ResponseEntity<OutputUser>(outputUser, HttpStatus.OK);
-		} catch (Exception e) {
-			OutputUser outputUser = new OutputUser();
-			outputUser.setMessage(e.getLocalizedMessage());
-			outputUser.setResult(e);
-			return new ResponseEntity<OutputUser>(outputUser, HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(outputUser, HttpStatus.OK);
+		} catch (BusinessException business) {
+			OutputError error = new OutputError();
+			error.setMessage(business.getMessage());
+			error.setErrorCode(business.getCode());
+			return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	private void validarCampos(User user) throws BusinessException {
+		if (user.getFirstName().isEmpty() || user.getLastName().isEmpty() || user.getEmail().isEmpty()
+				|| user.getPassword().isEmpty()) {
+			throw new BusinessException("Missing fields", 1);
+		}
+
+		if (user.getFirstName().isBlank() || user.getLastName().isBlank() || user.getEmail().isBlank()
+				|| user.getPassword().isBlank()) {
+			throw new BusinessException("Invalid fields", 2);
+		}
+		if(!userRepository.findByEmail(user.getEmail()).isEmpty()) {
+			throw new BusinessException("E-mail already exists", 3);
 		}
 	}
 	
