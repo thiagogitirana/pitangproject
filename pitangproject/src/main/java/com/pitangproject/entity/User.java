@@ -1,5 +1,6 @@
 package com.pitangproject.entity;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -9,24 +10,44 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.Email;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * @author Thiago Gitirana
  *
  */
 @Entity
-public class User {
+public class User implements Serializable{
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name="user_id")
 	private long id;
 
+	@JsonProperty("firstName")
 	private String firstName;
+	
+	@JsonProperty("lastName")
 	private String lastName;
+	
+	@JsonProperty("email")
+	@Email
 	private String email;
+	
+	@JsonProperty("password")
 	private String password;
 
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+	@JsonManagedReference
+	@JsonProperty("phones")
 	private List<Phone> phones;
 
 	public User() {

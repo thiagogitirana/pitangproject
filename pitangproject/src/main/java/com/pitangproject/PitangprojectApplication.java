@@ -31,11 +31,11 @@ public class PitangprojectApplication {
 	/**
 	 * Metódo resposável por inserir usuários ao iniciar a aplicação
 	 * 
-	 * @param repository
+	 * @param userRepository
 	 * @return CommandLineRunner
 	 */
 	@Bean
-	public CommandLineRunner demo(UserRepository repository, PhoneRepository repo) {
+	public CommandLineRunner demo(UserRepository userRepository, PhoneRepository phoneRepository) {
 		return (args) -> {
 
 			User user1 = new User();
@@ -46,7 +46,7 @@ public class PitangprojectApplication {
 			user1.setPhones(new ArrayList<>());						 
 			user1.addPhone(new Phone(996513747, 81, "+55"));
 			user1.addPhone(new Phone(34467871,81, "+55"));			
-			repository.save(user1);
+			userRepository.save(user1);
 			
 			User user2 = new User();
 			user2.setFirstName("Maria");
@@ -58,7 +58,7 @@ public class PitangprojectApplication {
 			user2.addPhone(new Phone(44221133, 11, "+55"));
 			user2.addPhone(new Phone(11111111, 11, "+55"));
 			user2.addPhone(new Phone(32323232, 11, "+55"));	
-			repository.save(user2);
+			userRepository.save(user2);
 			
 			User user3 = new User();
 			user3.setFirstName("João");
@@ -69,15 +69,15 @@ public class PitangprojectApplication {
 			user3.addPhone(new Phone(75315966, 21, "+55"));
 			user3.addPhone(new Phone(33221100, 21, "+55"));
 			user3.addPhone(new Phone(44554455, 21, "+55"));
-			repository.save(user3);
+			userRepository.save(user3);
 			
 			log.info("Usuários cadastrados");
-			for (User users : repository.findAll()) {
+			for (User users : userRepository.findAll()) {
 				StringBuilder builder = new StringBuilder();
 				builder.append("Usuários: ").append(users.getFirstName()).append(" ").append(users.getLastName());
 				log.info(builder.toString());
 				log.info("Telefones: ");
-				List<Phone> phones = repo.findByUser(users);
+				List<Phone> phones = phoneRepository.findByUser(users);
 				for (Phone phone : phones) {
 					builder = new StringBuilder();
 					builder.append("Telefone: ").append(phone.getCountryCode()).append(" ").append(phone.getAreaCode())

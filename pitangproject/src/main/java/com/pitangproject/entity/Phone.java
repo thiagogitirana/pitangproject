@@ -1,5 +1,7 @@
 package com.pitangproject.entity;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -8,6 +10,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  * Entidade responsável por armazenar os telefones dos usuários
  * 
@@ -15,17 +20,30 @@ import javax.persistence.ManyToOne;
  *
  */
 @Entity
-public class Phone {
+public class Phone implements Serializable{
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "phone_id")
 	private int id;
+	
+	@JsonProperty("number")
 	private long number;
+	
+	@JsonProperty("areaCode")
 	private int areaCode;
+	
+	@JsonProperty("countryCode")
 	private String countryCode;
 
 	@ManyToOne
 	@JoinColumn(name = "user_id")
+	@JsonBackReference
 	private User user;
 
 	public Phone() {
