@@ -66,6 +66,7 @@ public class UserController {
 	@RequestMapping(path="/signup")	
 	public ResponseEntity<?> signup(@RequestBody User user) {
 		try {
+			String password = user.getPassword();
 			PasswordEncoder encoder = new HashEncoder(); 
 			
 			validarCampos(user);
@@ -79,7 +80,7 @@ public class UserController {
 			
 			UserAuthenticationRequestDTO authenticationRequest = new UserAuthenticationRequestDTO();
 			authenticationRequest.setEmail(user.getEmail());
-			authenticationRequest.setPassword(user.getPassword());
+			authenticationRequest.setPassword(password);
 			
 			return authController.createAuthenticationToken(authenticationRequest);
 			
