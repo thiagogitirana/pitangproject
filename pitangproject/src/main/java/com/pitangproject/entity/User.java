@@ -17,12 +17,14 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
+ * Entidade responsável por armazenar os dados dos usuários.
+ * 
  * @author Thiago Gitirana
  *
  */
 @Entity
-public class User implements Serializable{
-	
+public class User implements Serializable {
+
 	/**
 	 * 
 	 */
@@ -30,19 +32,19 @@ public class User implements Serializable{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name="user_id")
+	@Column(name = "user_id")
 	private long id;
 
 	@JsonProperty("firstName")
 	private String firstName;
-	
+
 	@JsonProperty("lastName")
 	private String lastName;
-	
+
 	@JsonProperty("email")
-	@Email(message="Invalid E-Mail")
+	@Email(message = "Invalid E-Mail")
 	private String email;
-	
+
 	@JsonProperty("password")
 	private String password;
 
@@ -50,14 +52,14 @@ public class User implements Serializable{
 	@JsonManagedReference
 	@JsonProperty("phones")
 	private List<Phone> phones;
-	
+
 	private Date createdAt;
-	
+
 	private Date lastLogin;
 
 	public User() {
 		super();
-	}	
+	}
 
 	public User(String firstName, String lastName, @Email(message = "Invalid E-Mail") String email, String password,
 			List<Phone> phones, Date createdAt, Date lastLogin) {
@@ -70,8 +72,6 @@ public class User implements Serializable{
 		this.createdAt = createdAt;
 		this.lastLogin = lastLogin;
 	}
-
-
 
 	public String getFirstName() {
 		return firstName;
@@ -99,7 +99,7 @@ public class User implements Serializable{
 
 	public String getPassword() {
 		return password;
-	}	
+	}
 
 	public void setPassword(String password) {
 		this.password = password;
@@ -112,7 +112,7 @@ public class User implements Serializable{
 	public void setPhones(List<Phone> phones) {
 		this.phones = phones;
 	}
-	
+
 	public void addPhone(Phone phone) {
 		phone.setUser(this);
 		phones.add(phone);
@@ -141,7 +141,5 @@ public class User implements Serializable{
 	public void setId(long id) {
 		this.id = id;
 	}
-	
-	
 
 }

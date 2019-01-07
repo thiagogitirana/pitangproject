@@ -8,6 +8,7 @@ import com.pitangproject.entity.Phone;
 import com.pitangproject.entity.User;
 
 /**
+ * 
  * @author Thiago Gitirana
  *
  */

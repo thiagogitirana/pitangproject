@@ -20,24 +20,24 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  *
  */
 @Entity
-public class Phone implements Serializable{
-	
+public class Phone implements Serializable {
+
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "phone_id")
 	private int id;
-	
+
 	@JsonProperty("number")
 	private long number;
-	
+
 	@JsonProperty("areaCode")
 	private int areaCode;
-	
+
 	@JsonProperty("countryCode")
 	private String countryCode;
 

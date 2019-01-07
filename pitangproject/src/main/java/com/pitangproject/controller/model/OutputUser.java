@@ -9,10 +9,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  *
  */
 public class OutputUser {
-	
+
 	@JsonProperty("message")
 	private String message = null;
-	
+
 	@JsonProperty("result")
 	private Object result;
 
@@ -31,7 +31,5 @@ public class OutputUser {
 	public void setResult(Object result) {
 		this.result = result;
 	}
-	
-	
-	
+
 }

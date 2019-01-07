@@ -4,6 +4,12 @@ import java.io.Serializable;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+/**
+ * DTO de requisição de autenticação
+ * 
+ * @author Thiago Gitirana
+ *
+ */
 public class UserAuthenticationRequestDTO implements Serializable {
 
 	/**

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Classe responsável por mapear o retorno de erros
+ * 
  * @author Thiago Gitirana
  *
  */

@@ -22,8 +22,9 @@ public class JWTAuthenticationEntryPoint implements AuthenticationEntryPoint, Se
 	@Override
 	public void commence(HttpServletRequest request, HttpServletResponse response,
 			AuthenticationException authException) throws IOException, ServletException {
-		
-		//Caso seja feito alguma requisição sem login, será retornada a mensagem abaixo com o erro 401
+
+		// Caso seja feito alguma requisição sem login, será retornada a mensagem abaixo
+		// com o erro 401
 		response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized");
 
 	}

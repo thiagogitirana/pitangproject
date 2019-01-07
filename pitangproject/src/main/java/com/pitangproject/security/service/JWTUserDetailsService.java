@@ -10,6 +10,12 @@ import com.pitangproject.entity.User;
 import com.pitangproject.repository.UserRepository;
 import com.pitangproject.security.JWTUserFactory;
 
+/**
+ * Classe responsável por implementar a interface que busca os dados do usuário
+ * 
+ * @author Thiago Gitirana
+ *
+ */
 @Service
 public class JWTUserDetailsService implements UserDetailsService {
 
@@ -21,14 +27,10 @@ public class JWTUserDetailsService implements UserDetailsService {
 		User user = repository.findByEmail(username);
 
 		if (user == null) {
-			throw new UsernameNotFoundException(String.format("Invalid e-mail or password '%s'.", username));
+			throw new UsernameNotFoundException(String.format("User not found '%s'.", username));
 		} else {
 			return JWTUserFactory.create(user);
 		}
 	}
-
-	
-	
-	
 
 }

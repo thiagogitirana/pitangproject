@@ -13,6 +13,7 @@ import com.pitangproject.entity.User;
 public interface UserRepository extends CrudRepository<User, Long> {
 
 	List<User> findByLastName(String name);
+
 	User findByEmail(String email);
-	
+
 }

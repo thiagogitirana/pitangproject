@@ -4,23 +4,33 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.pitangproject.entity.Phone;
 
+/**
+ * Classe para mapeamento dos dados de usuários autenticados
+ * 
+ * @author Thiago Gitirana
+ *
+ */
 public class UserRequestDTO implements UserDetails {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2258155149574120403L;
+	
 	private long id;
 	private String firstName;
 	private String lastName;
 	private String email;
 	private String password;
-	private List<Phone> phones;	
+	private List<Phone> phones;
 	private Date createdAt;
-	private Date lastLogin;	
+	private Date lastLogin;
 
 	public UserRequestDTO(long id, String firstName, String lastName, String email, String password, List<Phone> phones,
 			Date createdAt, Date lastLogin) {
@@ -40,7 +50,7 @@ public class UserRequestDTO implements UserDetails {
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		return null;
 	}
-	
+
 	@JsonIgnore
 	@Override
 	public String getPassword() {
@@ -139,7 +149,5 @@ public class UserRequestDTO implements UserDetails {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	
-	
 
 }
