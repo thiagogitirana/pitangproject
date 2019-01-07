@@ -1,6 +1,7 @@
 package com.pitangproject.entity;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -49,19 +50,28 @@ public class User implements Serializable{
 	@JsonManagedReference
 	@JsonProperty("phones")
 	private List<Phone> phones;
+	
+	private Date createdAt;
+	
+	private Date lastLogin;
 
 	public User() {
 		super();
-	}
+	}	
 
-	public User(String firstName, String lastName, String email, String password, List<Phone> phones) {
+	public User(String firstName, String lastName, @Email(message = "Invalid E-Mail") String email, String password,
+			List<Phone> phones, Date createdAt, Date lastLogin) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
 		this.password = password;
 		this.phones = phones;
+		this.createdAt = createdAt;
+		this.lastLogin = lastLogin;
 	}
+
+
 
 	public String getFirstName() {
 		return firstName;
@@ -89,7 +99,7 @@ public class User implements Serializable{
 
 	public String getPassword() {
 		return password;
-	}
+	}	
 
 	public void setPassword(String password) {
 		this.password = password;
@@ -107,5 +117,31 @@ public class User implements Serializable{
 		phone.setUser(this);
 		phones.add(phone);
 	}
+
+	public Date getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
+	}
+
+	public Date getLastLogin() {
+		return lastLogin;
+	}
+
+	public void setLastLogin(Date lastLogin) {
+		this.lastLogin = lastLogin;
+	}
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
+	
+	
 
 }
